@@ -4,28 +4,28 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       showingFavorites: false,
-      showingBooks: true,
+      showingPosts: true,
     };
-    this.renderAllBooks = this.renderAllBooks.bind(this);
-    this.renderAuthoredBooks = this.renderAuthoredBooks.bind(this);
-    this.renderFavoriteBooks = this.renderFavoriteBooks.bind(this);
+    this.renderAllPosts = this.renderAllPosts.bind(this);
+    this.renderAuthoredPosts = this.renderAuthoredPosts.bind(this);
+    this.renderFavoritePosts = this.renderFavoritePosts.bind(this);
     this.currentUserProfile = this.currentUserProfile.bind(this);
     this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
-    this.toggleShowBooks = this.toggleShowBooks.bind(this);
+    this.toggleShowPosts = this.toggleShowPosts.bind(this);
     this.toggleShowAll = this.toggleShowAll.bind(this);
-    this.renderCreateBookButton = this.renderCreateBookButton.bind(this);
+    this.renderCreatePostButton = this.renderCreatePostButton.bind(this);
     this.renderDashboardList = this.renderDashboardList.bind(this);
     this.renderEditButton = this.renderEditButton.bind(this);
     this.renderUserContent = this.renderUserContent.bind(this);
   }
 
-  renderAllBooks() {
-    return this.props.books.map((book) => {
+  renderAllPosts() {
+    return this.props.posts.map((post) => {
       return (
-        <BookEntry
+        <PostEntry
           // users={this.props.userData}
-          book={book}
-          key={book.id}
+          post={post}
+          key={post.id}
           cardinality={this.props.cardinality}
           phrase={this.props.phrase}
         />
@@ -33,13 +33,13 @@ class Profile extends React.Component {
     });
   }
 
-  renderAuthoredBooks() {
-    if (this.props.authoredBooks.length > 0) {
-      return this.props.authoredBooks.map((book) => {
+  renderAuthoredPosts() {
+    if (this.props.authoredPosts.length > 0) {
+      return this.props.authoredPosts.map((post) => {
         return (
-          <BookEntry
-            book={book}
-            key={book.id}
+          <PostEntry
+            post={post}
+            key={post.id}
             cardinality={this.props.cardinality}
             phrase={this.props.phrase}
           />
@@ -50,34 +50,34 @@ class Profile extends React.Component {
         if (this.props.currentUser) {
           return (
             <li className="emptyList">
-              <p>You haven't created any books yet. <a href="/books/new">Create your first book</a></p>
+              <p>You haven't created any posts yet. <a href="/posts/new">Create your first post</a></p>
             </li>
           );
         } else {
           return (
             <li className="emptyList">
-              <p>{this.props.userData.username} does not have any books.</p>
+              <p>{this.props.userData.username} does not have any posts.</p>
             </li>
           );
         }
       } else {
         return (
           <li className="emptyList">
-            <p>{this.props.userData.username} does not have any books.</p>
+            <p>{this.props.userData.username} does not have any posts.</p>
           </li>
         );
       }
     }
   }
 
-  renderFavoriteBooks() {
+  renderFavoritePosts() {
     if (this.props.favorites.length > 0) {
-      return this.props.favorites.map((book) => {
+      return this.props.favorites.map((post) => {
         return (
-          <BookEntry
+          <PostEntry
             users={this.props.userData}
-            book={book}
-            key={book.id}
+            post={post}
+            key={post.id}
             cardinality={this.props.cardinality}
             phrase={this.props.phrase}
           />
@@ -101,15 +101,15 @@ class Profile extends React.Component {
     this.setState({
       showingAll: false,
       showingFavorites: true,
-      showingBooks: false,
+      showingPosts: false,
     });
   }
 
-  toggleShowBooks() {
+  toggleShowPosts() {
     this.setState({
       showingAll: false,
       showingFavorites: false,
-      showingBooks: true,
+      showingPosts: true,
     });
   }
 
@@ -117,15 +117,15 @@ class Profile extends React.Component {
     this.setState({
       showingAll: true,
       showingFavorites: false,
-      showingBooks: false,
+      showingPosts: false,
     });
   }
 
-  renderCreateBookButton() {
+  renderCreatePostButton() {
     if (!this.currentUserProfile()) {
       if (this.props.currentUser) {
         return (
-          <a href="/books/new" className="newBook" title="Create a new book">+</a>
+          <a href="/posts/new" className="newPost" title="Create a new post">+</a>
         );
       }
     }
@@ -136,34 +136,34 @@ class Profile extends React.Component {
       if (this.currentUserProfile()) {
         return (
           <div className="controlPanel">
-            <button id="books" onClick={this.toggleShowBooks}>
-              Books <span className="bookCount">{this.props.authoredBooks.length}</span>
+            <button id="posts" onClick={this.toggleShowPosts}>
+              Posts <span className="postCount">{this.props.authoredPosts.length}</span>
             </button>
             <button id="favorites" onClick={this.toggleShowFavorites}>
-              Favorites <span className="bookCount">{this.props.favorites.length}</span>
+              Favorites <span className="postCount">{this.props.favorites.length}</span>
             </button>
           </div>
         );
       }
       return (
         <div className="controlPanel">
-          <button id="books" onClick={this.toggleShowBooks}>
-            My Books <span className="bookCount">{this.props.authoredBooks.length}</span>
+          <button id="posts" onClick={this.toggleShowPosts}>
+            My Posts <span className="postCount">{this.props.authoredPosts.length}</span>
           </button>
           <button id="favorites" onClick={this.toggleShowFavorites}>
-            Favorites <span className="bookCount">{this.props.favorites.length}</span>
+            Favorites <span className="postCount">{this.props.favorites.length}</span>
           </button>
-          <a href="/books/new" title="Create a new book">+</a>
+          <a href="/posts/new" title="Create a new post">+</a>
         </div>
       );
     }
     return (
       <div className="controlPanel">
-        <button id="books" onClick={this.toggleShowBooks}>
-          Books <span className="bookCount">{this.props.authoredBooks.length}</span>
+        <button id="posts" onClick={this.toggleShowPosts}>
+          Posts <span className="postCount">{this.props.authoredPosts.length}</span>
         </button>
         <button id="favorites" onClick={this.toggleShowFavorites}>
-          Favorites <span className="bookCount">{this.props.favorites.length}</span>
+          Favorites <span className="postCount">{this.props.favorites.length}</span>
         </button>
       </div>
     );
@@ -184,18 +184,18 @@ class Profile extends React.Component {
       return (
         <div className="indexContent favorites">
          {this.renderDashboardList()}
-          <ul className="bookEntryList">
-            {this.renderFavoriteBooks()}
+          <ul className="postEntryList">
+            {this.renderFavoritePosts()}
           </ul>
         </div>
       );
     }
-    if (this.state.showingBooks) {
+    if (this.state.showingPosts) {
       return (
-        <div className="indexContent books">
+        <div className="indexContent posts">
           {this.renderDashboardList()}
-          <ul className="bookEntryList">
-            {this.renderAuthoredBooks()}
+          <ul className="postEntryList">
+            {this.renderAuthoredPosts()}
           </ul>
         </div>
       );
@@ -236,13 +236,13 @@ class Profile extends React.Component {
           <div className="dashboard">
             <div className="indexContent">
               <div className="controlPanel">
-                <p>Recent books</p>
+                <p>Recent posts</p>
               </div>
-              <ul className="bookEntryList">
-                {this.renderAllBooks()}
+              <ul className="postEntryList">
+                {this.renderAllPosts()}
               </ul>
             </div>
-            {this.renderCreateBookButton()}
+            {this.renderCreatePostButton()}
           </div>
         </div>
       </div>
@@ -251,7 +251,7 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-  books: React.PropTypes.arrayOf(React.PropTypes.shape({
+  posts: React.PropTypes.arrayOf(React.PropTypes.shape({
     created_at: React.PropTypes.string,
     description: React.PropTypes.string,
     id: React.PropTypes.number,
@@ -261,7 +261,7 @@ Profile.propTypes = {
     user: React.PropTypes.shape({
       created_at: React.PropTypes.string,
       email: React.PropTypes.string,
-      favorite_books: React.PropTypes.array,
+      favorite_posts: React.PropTypes.array,
       id: React.PropTypes.number,
       username: React.PropTypes.string,
     }),
@@ -269,12 +269,12 @@ Profile.propTypes = {
   userData: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),
   cardinality: React.PropTypes.string,
-  authoredBooks: React.PropTypes.arrayOf(React.PropTypes.shape({
+  authoredPosts: React.PropTypes.arrayOf(React.PropTypes.shape({
     created_at: React.PropTypes.string,
     description: React.PropTypes.string,
     id: React.PropTypes.number,
@@ -284,7 +284,7 @@ Profile.propTypes = {
     user: React.PropTypes.shape({
       created_at: React.PropTypes.string,
       email: React.PropTypes.string,
-      favorite_books: React.PropTypes.array,
+      favorite_posts: React.PropTypes.array,
       id: React.PropTypes.number,
       username: React.PropTypes.string,
     }),
@@ -299,7 +299,7 @@ Profile.propTypes = {
     user: React.PropTypes.shape({
       created_at: React.PropTypes.string,
       email: React.PropTypes.string,
-      favorite_books: React.PropTypes.array,
+      favorite_posts: React.PropTypes.array,
       id: React.PropTypes.number,
       username: React.PropTypes.string,
     }),
@@ -307,7 +307,7 @@ Profile.propTypes = {
   currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),

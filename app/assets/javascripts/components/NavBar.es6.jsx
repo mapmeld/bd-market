@@ -46,7 +46,7 @@ NavBar.propTypes = {
   currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),

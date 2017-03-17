@@ -1,4 +1,4 @@
-class NewBook extends React.Component {
+class NewPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,13 +41,13 @@ class NewBook extends React.Component {
     this.state.errors = [];
     if (this.state.title && this.state.source_language && this.state.target_language) {
       $.ajax({
-        url: '/books',
+        url: '/posts',
         type: 'POST',
         data: {
-          book: this.state,
+          post: this.state,
         },
-        success(book) {
-          window.location.href = '/books/' + book.id;
+        success(post) {
+          window.location.href = '/posts/' + post.id;
         },
         error(error) {
           console.log(error);
@@ -58,7 +58,7 @@ class NewBook extends React.Component {
       if (!this.state.source_language) this.state.errors.push(' Source language');
       if (!this.state.target_language) this.state.errors.push(' Target language');
       bootbox.alert({
-        message: 'Your book is missing the following required details:' + (this.state.errors),
+        message: 'Your post is missing the following required details:' + (this.state.errors),
         closeButton: false,
       });
     }
@@ -233,7 +233,7 @@ class NewBook extends React.Component {
           search={this.props.search}
         />
         <span className="backgroundElement" />
-        <div className="book">
+        <div className="post">
           <form onSubmit={this.onSubmit}>
             <fieldset className="tools">
               <span title="Favorite"className="icon">
@@ -292,9 +292,7 @@ class NewBook extends React.Component {
                     type="text"
                     name="description"
                     dir="auto"
-                    placeholder="Describe the contents of your book, Ex: A
-                    collection of useful phrases in Laputa, a Swiftian language
-                    spoken in Balnibarbi and a number of other islands."
+                    placeholder="Describe the goods and services in your post."
                     value={this.state.description}
                     onChange={this.onInputChange}
                   />
@@ -303,7 +301,7 @@ class NewBook extends React.Component {
             </fieldset>
             <section className="new dictionary">
               <DummyContent />
-              <button className="startBook" type="submit">Create Book</button>
+              <button className="startPost" type="submit">Create Post</button>
             </section>
           </form>
         </div>
@@ -312,11 +310,11 @@ class NewBook extends React.Component {
   }
 }
 
-NewBook.propTypes = {
+NewPost.propTypes = {
   currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),

@@ -1,36 +1,36 @@
 class HomeIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.renderCreateBookPanel = this.renderCreateBookPanel.bind(this);
-    this.renderCreateBookButton = this.renderCreateBookButton.bind(this);
-    this.renderBooks = this.renderBooks.bind(this);
+    this.renderCreatePostPanel = this.renderCreatePostPanel.bind(this);
+    this.renderCreatePostButton = this.renderCreatePostButton.bind(this);
+    this.renderPosts = this.renderPosts.bind(this);
   }
 
-  renderCreateBookPanel() {
+  renderCreatePostPanel() {
     if (this.props.currentUser) {
       return (
-        <a href="/books/new" title="Create a new book">New book</a>
+        <a href="/posts/new" title="Create a new post">New post</a>
       );
     }
     return (
-      <a href="/sign_in" title="Create a new book">Log in to create new books</a>
+      <a href="/sign_in" title="Create a new post">Log in to create new posts</a>
     );
   }
 
-  renderCreateBookButton() {
+  renderCreatePostButton() {
     if (this.props.currentUser) {
       return (
-        <a href="/books/new" className="newBook" title="Create a new book">+</a>
+        <a href="/posts/new" className="newPost" title="Create a new post">+</a>
       );
     }
   }
 
-  renderBooks() {
-    return this.props.books.map((book) => {
+  renderPosts() {
+    return this.props.posts.map((post) => {
       return (
-        <BookEntry
+        <PostEntry
           users={this.props.users}
-          book={book} key={book.id}
+          post={post} key={post.id}
           cardinality={this.props.cardinality}
         />
       );
@@ -50,13 +50,13 @@ class HomeIndex extends React.Component {
           <span className="backgroundElement" />
           <div className="indexContent">
             <div className="controlPanel">
-              {this.renderCreateBookPanel()}
+              {this.renderCreatePostPanel()}
             </div>
-            <ul className="bookEntryList">
-              {this.renderBooks()}
+            <ul className="postEntryList">
+              {this.renderPosts()}
             </ul>
           </div>
-          {this.renderCreateBookButton()}
+          {this.renderCreatePostButton()}
       </div>
     </div>
     );
@@ -67,11 +67,11 @@ HomeIndex.propTypes = {
   currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),
-  books: React.PropTypes.arrayOf(React.PropTypes.shape({
+  posts: React.PropTypes.arrayOf(React.PropTypes.shape({
     created_at: React.PropTypes.string,
     description: React.PropTypes.string,
     id: React.PropTypes.number,
@@ -81,7 +81,7 @@ HomeIndex.propTypes = {
     user: React.PropTypes.shape({
       created_at: React.PropTypes.string,
       email: React.PropTypes.string,
-      favorite_books: React.PropTypes.array,
+      favorite_posts: React.PropTypes.array,
       id: React.PropTypes.number,
       username: React.PropTypes.string,
     }),
@@ -89,7 +89,7 @@ HomeIndex.propTypes = {
   users: React.PropTypes.arrayOf(React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   })),

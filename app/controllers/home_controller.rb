@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
 
   def index
-    @books = Book.all.order("created_at DESC").map do |book|
-      BookSerializer.new(book)
+    @posts = Post.all.order("created_at DESC").map do |post|
+      PostSerializer.new(post)
     end
     @users = User.all
 

@@ -120,7 +120,7 @@
               cursor pointer
               background lighten(#90A2B7, 10%)
 
-        .bookEntryList
+        .postEntryList
           li.emptyList
             p
               font-size 1em
@@ -143,7 +143,7 @@
                 &:active
                   border none
 
-          li.bookEntry
+          li.postEntry
             a
               section.info
                 .clear
@@ -170,7 +170,7 @@
           color $white
           transition color $time ease-in-out
 
-          span.bookCount
+          span.postCount
             background transparent
             font-weight 500
             padding 2px 4px
@@ -186,7 +186,7 @@
           transition color $time ease-in-out
           cursor pointer
 
-          span.bookCount
+          span.postCount
             background transparent
             font-weight 500
             padding 2px 4px
@@ -212,12 +212,12 @@
           font-size 2em
           line-height .6
 
-      &.books
+      &.posts
         .controlPanel
-          #books
+          #posts
             color $white
 
-            span.bookCount
+            span.postCount
               background lighten(#90A2B7,20%)
 
           #favorites
@@ -226,13 +226,13 @@
 
       &.favorites
         .controlPanel
-          #books
+          #posts
             color lighten(#90A2B7, 50%)
 
           #favorites
             color $white
 
-            span.bookCount
+            span.postCount
               background lighten(#90A2B7,20%)
 
     ul

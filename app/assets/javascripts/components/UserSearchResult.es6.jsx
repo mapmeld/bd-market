@@ -7,13 +7,13 @@ class UserSearchResult extends React.Component {
     const createdDay = createdDate.getDate();
 
     return (
-       <li className="bookEntry">
+       <li className="postEntry">
         <a href={'/users/'+this.props.user.id}>
           <section className="info">
           <section className="clear">
             <h2 className="title" title={this.props.user.username}>{this.props.user.username}</h2>
             <section className="details">
-              <p className="count" title={this.props.user.books.length +" books"}>{this.props.user.books.length} books</p>
+              <p className="count" title={this.props.user.posts.length +" posts"}>{this.props.user.posts.length} posts</p>
             </section>
           </section>
           <section className="meta">
@@ -27,11 +27,11 @@ class UserSearchResult extends React.Component {
   }
 }
 
-BookEntry.propTypes = {
+PostEntry.propTypes = {
     currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),

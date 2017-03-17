@@ -1,12 +1,12 @@
-class Book extends React.Component {
+class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       phrasePairs: this.props.initialPhrasePairs,
-      isEditingBook: false,
-      book: this.props.initialBook,
+      isEditingPost: false,
+      post: this.props.initialPost,
       isDescriptionTruncated: true,
-      isFavoriteBook: this.isFavoriteBook(),
+      isFavoritePost: this.isFavoritePost(),
       errors: [],
       isNewPhrase: false,
       isDescriptionPlaying: false,
@@ -17,18 +17,18 @@ class Book extends React.Component {
     this.onSourcePhraseSubmit = this.onSourcePhraseSubmit.bind(this);
     this.onTargetPhraseSubmit = this.onTargetPhraseSubmit.bind(this);
     this.saveNewPhrasePair = this.saveNewPhrasePair.bind(this);
-    this.onDeleteBookClick = this.onDeleteBookClick.bind(this);
-    this.onSaveBookClick = this.onSaveBookClick.bind(this);
+    this.onDeletePostClick = this.onDeletePostClick.bind(this);
+    this.onSavePostClick = this.onSavePostClick.bind(this);
     this.onInvertLanguagesClick = this.onInvertLanguagesClick.bind(this);
-    this.toggleEditingBookState = this.toggleEditingBookState.bind(this);
-    this.cancelEditingBookState = this.cancelEditingBookState.bind(this);
+    this.toggleEditingPostState = this.toggleEditingPostState.bind(this);
+    this.cancelEditingPostState = this.cancelEditingPostState.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-    this.onClickFavoriteBook = this.onClickFavoriteBook.bind(this);
+    this.onClickFavoritePost = this.onClickFavoritePost.bind(this);
     this.destroyFavorite = this.destroyFavorite.bind(this);
     this.createFavorite = this.createFavorite.bind(this);
-    this.toggleFavoriteBook = this.toggleFavoriteBook.bind(this);
-    this.bookIsOwnedByCurrentUser = this.bookIsOwnedByCurrentUser.bind(this);
-    this.renderBookMenu = this.renderBookMenu.bind(this);
+    this.toggleFavoritePost = this.toggleFavoritePost.bind(this);
+    this.postIsOwnedByCurrentUser = this.postIsOwnedByCurrentUser.bind(this);
+    this.renderPostMenu = this.renderPostMenu.bind(this);
     this.renderTitle = this.renderTitle.bind(this);
     this.renderAuthor = this.renderAuthor.bind(this);
     this.truncateText = this.truncateText.bind(this);
@@ -37,7 +37,7 @@ class Book extends React.Component {
     this.renderSourceLanguage = this.renderSourceLanguage.bind(this);
     this.renderTargetLanguage = this.renderTargetLanguage.bind(this);
     this.favoriteImage = this.favoriteImage.bind(this);
-    this.isFavoriteBook = this.isFavoriteBook.bind(this);
+    this.isFavoritePost = this.isFavoritePost.bind(this);
     this.renderFavoriteButton = this.renderFavoriteButton.bind(this);
     // video
     this.onToggleInputType = this.onToggleInputType.bind(this);
@@ -77,7 +77,7 @@ class Book extends React.Component {
       url: '/phrase_pairs',
       type: 'POST',
       data: {
-        book_id: this.state.book.id,
+        post_id: this.state.post.id,
         phrase_pair: phrasePair,
       },
       success: function (phrasePair) {
@@ -91,15 +91,15 @@ class Book extends React.Component {
     });
   }
 
-  onDeleteBookClick() {
-    const id = this.state.book.id;
+  onDeletePostClick() {
+    const id = this.state.post.id;
     bootbox.confirm({
-      message: 'Are you sure you want to delete this book?',
+      message: 'Are you sure you want to delete this post?',
       closeButton: false,
       callback: (result) => {
         if (result === true) {
           $.ajax({
-            url: '/books/' + id,
+            url: '/posts/' + id,
             type: 'DELETE',
             success() {
               window.location.href = '/dashboard';
@@ -110,19 +110,19 @@ class Book extends React.Component {
     });
   }
 
-  onSaveBookClick() {
+  onSavePostClick() {
     this.state.errors = [];
-    this.state.book.source_language = this.state.book.source_language_draft;
-    this.state.book.target_language = this.state.book.target_language_draft;
-    this.state.book.title = this.state.book.title_draft;
-    this.state.book.description = this.state.book.description_draft;
-    if (this.state.book.title && this.state.book.source_language && this.state.book.target_language) {
+    this.state.post.source_language = this.state.post.source_language_draft;
+    this.state.post.target_language = this.state.post.target_language_draft;
+    this.state.post.title = this.state.post.title_draft;
+    this.state.post.description = this.state.post.description_draft;
+    if (this.state.post.title && this.state.post.source_language && this.state.post.target_language) {
       $.ajax({
-        url: '/books/' + this.state.book.id,
+        url: '/posts/' + this.state.post.id,
         type: 'PUT',
-        data: { book: this.state.book },
+        data: { post: this.state.post },
         success: function () {
-          this.cancelEditingBookState();
+          this.cancelEditingPostState();
         }.bind(this),
         error() {
           bootbox.alert({
@@ -132,57 +132,57 @@ class Book extends React.Component {
         },
       });
     } else {
-      if (!this.state.book.title) this.state.errors.push(' Title');
-      if (!this.state.book.source_language) this.state.errors.push(" Source language");
-      if (!this.state.book.target_language) this.state.errors.push(" Target language");
+      if (!this.state.post.title) this.state.errors.push(' Title');
+      if (!this.state.post.source_language) this.state.errors.push(" Source language");
+      if (!this.state.post.target_language) this.state.errors.push(" Target language");
       bootbox.alert({
-        message: 'Your book is missing the following required details:' + (this.state.errors),
+        message: 'Your post is missing the following required details:' + (this.state.errors),
         closeButton: false,
       });
     }
   }
 
   onInvertLanguagesClick() {
-    const newBook = this.state.book;
+    const newPost = this.state.post;
     const newState = this.state;
 
-    const sourceLanguage = this.state.book.source_language;
-    const targetLanguage = this.state.book.target_language;
+    const sourceLanguage = this.state.post.source_language;
+    const targetLanguage = this.state.post.target_language;
 
-    newBook.source_language = targetLanguage;
-    newBook.target_language = sourceLanguage;
+    newPost.source_language = targetLanguage;
+    newPost.target_language = sourceLanguage;
 
-    newState.book = newBook;
+    newState.post = newPost;
     this.setState(newState);
   }
 
-  toggleEditingBookState() {
-    const modBook = this.state.book;
-    modBook.title_draft = modBook.title;
-    modBook.description_draft = modBook.description;
-    modBook.source_language_draft = modBook.source_language;
-    modBook.target_language_draft = modBook.target_language;
+  toggleEditingPostState() {
+    const modPost = this.state.post;
+    modPost.title_draft = modPost.title;
+    modPost.description_draft = modPost.description;
+    modPost.source_language_draft = modPost.source_language;
+    modPost.target_language_draft = modPost.target_language;
     this.setState({
-      isEditingBook: true,
-      book: modBook
+      isEditingPost: true,
+      post: modPost
     });
   }
 
-  cancelEditingBookState() {
-    this.setState({ isEditingBook: false });
+  cancelEditingPostState() {
+    this.setState({ isEditingPost: false });
   }
 
   onInputChange(e) {
-    const newBook = this.state.book;
+    const newPost = this.state.post;
     const newState = this.state;
 
-    newBook[e.target.name] = e.target.value;
-    newState.book = newBook;
+    newPost[e.target.name] = e.target.value;
+    newState.post = newPost;
     this.setState(newState);
   }
 
-  onClickFavoriteBook() {
-    if (this.state.isFavoriteBook) {
+  onClickFavoritePost() {
+    if (this.state.isFavoritePost) {
       this.destroyFavorite();
     } else {
       this.createFavorite();
@@ -191,10 +191,10 @@ class Book extends React.Component {
 
   destroyFavorite() {
     $.ajax({
-      url: '/favorites/' + this.state.book.id,
+      url: '/favorites/' + this.state.post.id,
       type: 'DELETE',
       success: function () {
-        this.toggleFavoriteBook();
+        this.toggleFavoritePost();
       }.bind(this),
       error() {
         console.log('something went wrong');
@@ -207,10 +207,10 @@ class Book extends React.Component {
       url: '/favorites',
       type: 'POST',
       data: {
-        book_id: this.state.book.id,
+        post_id: this.state.post.id,
       },
       success: function () {
-        this.toggleFavoriteBook();
+        this.toggleFavoritePost();
       }.bind(this),
       error() {
         console.log('something went wrong');
@@ -218,28 +218,28 @@ class Book extends React.Component {
     });
   }
 
-  toggleFavoriteBook() {
-    this.setState({ isFavoriteBook: !this.state.isFavoriteBook });
+  toggleFavoritePost() {
+    this.setState({ isFavoritePost: !this.state.isFavoritePost });
   }
 
-  bookIsOwnedByCurrentUser() {
+  postIsOwnedByCurrentUser() {
     if (this.props.currentUser) {
-      return this.props.initialBook.user_id == this.props.currentUser.id;
+      return this.props.initialPost.user_id == this.props.currentUser.id;
     }
   }
 
-  renderBookMenu() {
-    if (this.bookIsOwnedByCurrentUser()) {
-      if (this.state.isEditingBook) {
+  renderPostMenu() {
+    if (this.postIsOwnedByCurrentUser()) {
+      if (this.state.isEditingPost) {
         return (
           <div className="menu saving">
             <button title="Flip" onClick={this.onInvertLanguagesClick} className="icon">
               <img src={this.props.flipAlt} />
             </button>
-            <button title="Save" onClick={this.onSaveBookClick} className="icon">
+            <button title="Save" onClick={this.onSavePostClick} className="icon">
               <img src={this.props.saveAlt} alt="Save" />
             </button>
-            <button title="Cancel" onClick={this.cancelEditingBookState} className="close icon">
+            <button title="Cancel" onClick={this.cancelEditingPostState} className="close icon">
               <img src={this.props.closeAlt}/>
             </button>
           </div>
@@ -250,10 +250,10 @@ class Book extends React.Component {
             <button title="Menu" className="more icon">
               <img src={this.props.menuAlt}/>
             </button>
-            <button title="Edit" onClick={this.toggleEditingBookState} className="icon" tabIndex="-1">
+            <button title="Edit" onClick={this.toggleEditingPostState} className="icon" tabIndex="-1">
               <img src={this.props.editAlt}/>
             </button>
-            <button title="Delete" onClick={this.onDeleteBookClick} className="icon" tabIndex="-1">
+            <button title="Delete" onClick={this.onDeletePostClick} className="icon" tabIndex="-1">
               <img src={this.props.deleteAlt}/>
             </button>
           </div>
@@ -266,7 +266,7 @@ class Book extends React.Component {
           </button>
           <button
             title="Edit"
-            onClick={this.toggleEditingBookState}
+            onClick={this.toggleEditingPostState}
             className="icon"
             tabIndex="-1"
           >
@@ -274,7 +274,7 @@ class Book extends React.Component {
           </button>
           <button
             title="Delete"
-            onClick={this.onDeleteBookClick}
+            onClick={this.onDeletePostClick}
             className="icon"
             tabIndex="-1"
           >
@@ -286,31 +286,31 @@ class Book extends React.Component {
   }
 
   renderTitle() {
-    if (this.state.isEditingBook) {
+    if (this.state.isEditingPost) {
       return (
         <input
           name="title_draft"
           className="title new isEditing"
           dir="auto"
           onChange={this.onInputChange}
-          value={this.state.book.title_draft}
+          value={this.state.post.title_draft}
         />
       );
     }
-    return <h1 title={this.state.book.title}>{this.state.book.title}</h1>;
+    return <h1 title={this.state.post.title}>{this.state.post.title}</h1>;
   }
 
   renderAuthor() {
     const users = this.props.users;
     let authorName = '';
     for (var i = users.length - 1; i >= 0; i--) {
-      if (this.props.initialBook.user_id == users[i].id) {
+      if (this.props.initialPost.user_id == users[i].id) {
         authorName = users[i].username;
       }
     }
 
-    if (this.bookIsOwnedByCurrentUser()) {
-      if (this.state.isEditingBook) {
+    if (this.postIsOwnedByCurrentUser()) {
+      if (this.state.isEditingPost) {
         return (
           <p className="author">{authorName}</p>
         );
@@ -320,7 +320,7 @@ class Book extends React.Component {
       );
     }
     return (
-      <a href={'/users/' + this.state.book.user_id} className="author">{authorName}</a>
+      <a href={'/users/' + this.state.post.user_id} className="author">{authorName}</a>
     );
   }
 
@@ -329,23 +329,23 @@ class Book extends React.Component {
   }
 
   renderTruncatedDescription() {
-    if (this.state.book.description.length >= 132) {
+    if (this.state.post.description.length >= 132) {
       if (this.state.isDescriptionTruncated) {
         return (
           <p className="description">
-            {this.state.book.description.substring(0, 132)}...
+            {this.state.post.description.substring(0, 132)}...
             <button onClick={this.truncateText}>More</button>
           </p>
         );
       }
       return (
         <p className="description">
-          {this.state.book.description}
+          {this.state.post.description}
           <button onClick={this.truncateText}>Less</button>
         </p>
       );
     }
-    return <p className="description">{this.state.book.description}</p>;
+    return <p className="description">{this.state.post.description}</p>;
   }
 
 
@@ -353,12 +353,12 @@ class Book extends React.Component {
 
   renderVideoDescription() {
     if (this.state.isInputVideo == false) {
-      if (this.state.book.video_description) {
-        if (this.state.isEditingBook) {
+      if (this.state.post.video_description) {
+        if (this.state.isEditingPost) {
           return (
             <div className="videoDescription">
               <div className="videoComponent">
-                <video src={this.state.book.video_description} loop width="600"></video>
+                <video src={this.state.post.video_description} loop width="600"></video>
                 <div className="videoControls">
                   {this.renderPlayButton()}
                   <button type="button" title="Remove video" onClick={this.onDeleteVideoDescription} className="text icon">
@@ -369,10 +369,10 @@ class Book extends React.Component {
             </div>
           )
         } else {
-          return <div className="videoDescription"><div className="videoComponent"><video src={this.state.book.video_description} loop width="600"></video><div className="videoControls">{this.renderPlayButton()}</div></div></div>
+          return <div className="videoDescription"><div className="videoComponent"><video src={this.state.post.video_description} loop width="600"></video><div className="videoControls">{this.renderPlayButton()}</div></div></div>
         }
       } else {
-        if (this.state.isEditingBook) {
+        if (this.state.isEditingPost) {
           return <button type="button" title="Add a video introduction" onClick={this.onToggleInputType} className="addVideoButton">Add a video introduction</button>
         }
       }
@@ -436,11 +436,11 @@ class Book extends React.Component {
   }
 
   onDeleteVideoDescription() {
-    const newBook = this.state.book;
+    const newPost = this.state.post;
     const newState = this.state;
 
-    newBook.video_description = "";
-    newState.book = newBook;
+    newPost.video_description = "";
+    newState.post = newPost;
     this.setState(newState);
   }
 
@@ -520,19 +520,19 @@ class Book extends React.Component {
   }
 
   onDescriptionVideoSubmit(video) {
-    const newBook = this.state.book;
+    const newPost = this.state.post;
     const newState = this.state;
 
-    newBook.video_description = video;
-    newState.book = newBook;
+    newPost.video_description = video;
+    newState.post = newPost;
     this.setState(newState);
   }
 
   // END VIDEO
 
   renderDescription() {
-    if (this.state.book.description) {
-      if (this.state.isEditingBook) {
+    if (this.state.post.description) {
+      if (this.state.isEditingPost) {
         return (
           <textarea
             rows="4"
@@ -540,14 +540,14 @@ class Book extends React.Component {
             name="description_draft"
             dir="auto"
             onChange={this.onInputChange}
-            value={this.state.book.description_draft}
+            value={this.state.post.description_draft}
           />
         );
       } else {
         return <span>{this.renderTruncatedDescription()}</span>;
       }
     } else {
-      if (this.state.isEditingBook) {
+      if (this.state.isEditingPost) {
         return (
           <textarea
             rows="4"
@@ -555,10 +555,8 @@ class Book extends React.Component {
             name="description_draft"
             dir="auto"
             onChange={this.onInputChange}
-            value={this.state.book.description_draft}
-            placeholder="Describe the contents of your book,
-            Ex: A collection of useful phrases in Laputa, a Swiftian
-            language spoken in Balnibarbi and a number of other islands..."
+            value={this.state.post.description_draft}
+            placeholder="Describe the goods or services in your post"
           />
         );
       }
@@ -566,51 +564,51 @@ class Book extends React.Component {
   }
 
   renderSourceLanguage() {
-    if (this.state.isEditingBook) {
+    if (this.state.isEditingPost) {
       return (
         <input
           className="new isEditing"
           name="source_language_draft"
           onChange={this.onInputChange}
-          value={this.state.book.source_language_draft}
+          value={this.state.post.source_language_draft}
         />
       );
     }
     return (
-      <h1 className="language source" title={this.state.book.source_language}>
-        {this.state.book.source_language}
+      <h1 className="language source" title={this.state.post.source_language}>
+        {this.state.post.source_language}
       </h1>
     );
   }
 
   renderTargetLanguage() {
-    if (this.state.isEditingBook) {
+    if (this.state.isEditingPost) {
       return (
         <input
           className="new isEditing"
           name="target_language_draft"
           onChange={this.onInputChange}
-          value={this.state.book.target_language_draft}
+          value={this.state.post.target_language_draft}
         />
       );
     }
     return (
-      <h1 className="language target" title={this.state.book.target_language}>
-        {this.state.book.target_language}
+      <h1 className="language target" title={this.state.post.target_language}>
+        {this.state.post.target_language}
       </h1>
     );
   }
 
   favoriteImage() {
-    return this.state.isFavoriteBook
+    return this.state.isFavoritePost
       ? this.props.star
       : this.props.unstar;
   }
 
-  isFavoriteBook() {
+  isFavoritePost() {
     if (this.props.currentUser) {
-      return this.props.currentUser.favorite_books.filter((favorite) => {
-        return favorite.book_id == this.props.initialBook.id;
+      return this.props.currentUser.favorite_posts.filter((favorite) => {
+        return favorite.post_id == this.props.initialPost.id;
       }).length > 0;
     }
   }
@@ -618,7 +616,7 @@ class Book extends React.Component {
   renderFavoriteButton() {
     if (this.props.currentUser) {
       return (
-        <button title="Favorite" onClick={this.onClickFavoriteBook} className="favorite icon">
+        <button title="Favorite" onClick={this.onClickFavoritePost} className="favorite icon">
           <img src={this.favoriteImage()} alt="Favorite" />
         </button>
       );
@@ -635,7 +633,7 @@ class Book extends React.Component {
           search={this.props.search}
         />
         <span className="backgroundElement" />
-        <div className="book">
+        <div className="post">
           <div className="tools">
             {this.renderFavoriteButton()}
             <div className="cardinality">
@@ -645,7 +643,7 @@ class Book extends React.Component {
                 { this.renderTargetLanguage() }
               </section>
             </div>
-            { this.renderBookMenu() }
+            { this.renderPostMenu() }
           </div>
           <div className="info">
             <div className="wrapper" dir="auto">
@@ -659,11 +657,11 @@ class Book extends React.Component {
           <div className="NObannerWrapper"></div>
 
           <Dictionary
-          isOwnedByCurrentUser={this.bookIsOwnedByCurrentUser()}
+          isOwnedByCurrentUser={this.postIsOwnedByCurrentUser()}
           initialPhrasePairs={this.state.phrasePairs}
           onSourcePhraseSubmit={this.onSourcePhraseSubmit}
           onTargetPhraseSubmit={this.onTargetPhraseSubmit}
-          isEditingBook={this.state.isEditingBook}
+          isEditingPost={this.state.isEditingPost}
           menu={this.props.menu}
           flip={this.props.flip}
           save={this.props.save}
@@ -675,9 +673,9 @@ class Book extends React.Component {
           videoAlt={this.props.videoAlt}
           close={this.props.close}
           closeAlt={this.props.closeAlt}
-          sourceLanguage={this.state.book.source_language}
-          targetLanguage={this.state.book.target_language}
-          author={this.state.book.user_id}
+          sourceLanguage={this.state.post.source_language}
+          targetLanguage={this.state.post.target_language}
+          author={this.state.post.user_id}
           isNewPhrase={this.state.isNewPhrase}
           />
         </div>
@@ -686,16 +684,16 @@ class Book extends React.Component {
   }
 }
 
-Book.propTypes = {
+Post.propTypes = {
   initialPhrasePairs: React.PropTypes.arrayOf(React.PropTypes.shape({
-    book_id: React.PropTypes.number,
+    post_id: React.PropTypes.number,
     created_at: React.PropTypes.string,
     id: React.PropTypes.number,
     source_phrase: React.PropTypes.string,
     target_phrase: React.PropTypes.string,
     updated_at: React.PropTypes.string,
   })),
-  initialBook: React.PropTypes.shape({
+  initialPost: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     description: React.PropTypes.string,
     id: React.PropTypes.number,
@@ -708,7 +706,7 @@ Book.propTypes = {
   currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),
@@ -721,7 +719,7 @@ Book.propTypes = {
   users: React.PropTypes.arrayOf(React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   })),

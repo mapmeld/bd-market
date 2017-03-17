@@ -1,15 +1,15 @@
-class BooksController < AuthenticatedController
+class PostsController < AuthenticatedController
   skip_before_filter :authenticate_user!, only: [:show]
 
   def show
     @users=User.all
-    @book = Book.find(params[:id])
+    @post = Post.find(params[:id])
     if current_user
       @serialized_current_user = UserSerializer.new(current_user).as_json
     end
-    if @book.present?
-      @phrase_pairs = @book.phrase_pairs.order("created_at ASC")
-      authorize @book
+    if @post.present?
+      @phrase_pairs = @post.phrase_pairs.order("created_at ASC")
+      authorize @post
     else
       skip_authorization
       redirect_to root_path
@@ -17,43 +17,43 @@ class BooksController < AuthenticatedController
   end
 
   def new
-    book = current_user.books.new
-    authorize book
+    post = current_user.posts.new
+    authorize post
   end
 
   def create
-    book = current_user.books.create(create_or_update_params)
-    if book.present?
-      authorize book
-      render json: { id: book.id }, status: :ok
+    post = current_user.posts.create(create_or_update_params)
+    if post.present?
+      authorize post
+      render json: { id: post.id }, status: :ok
     else
       skip_authorization
-      render json: { errors: book.errors.messages }, status: 422
+      render json: { errors: post.errors.messages }, status: 422
     end
   end
 
   def destroy
-    book = Book.find(params[:id])
-    if book.present?
-      authorize book
-      book.destroy
+    post = Post.find(params[:id])
+    if post.present?
+      authorize post
+      post.destroy
       render json: {}, status: :ok
     else
       skip_authorization
-      render json: { errors: book.errors.messages }, status: 422
+      render json: { errors: post.errors.messages }, status: 422
     end
   end
 
   def update
-    book = Book.find(params[:id])
-    authorize book
-    if book.present?
-     authorize book
-     book.update_attributes(create_or_update_params)
+    post = Post.find(params[:id])
+    authorize post
+    if post.present?
+     authorize post
+     post.update_attributes(create_or_update_params)
       render json: {}, status: :ok
     else
       skip_authorization
-      render json: { errors: book.errors.messages }, status: 422
+      render json: { errors: post.errors.messages }, status: 422
     end
   end
 
@@ -75,7 +75,7 @@ class BooksController < AuthenticatedController
   private
 
   def create_or_update_params
-    params.require(:book).permit(
+    params.require(:post).permit(
       :title,
       :description,
       :video_description,

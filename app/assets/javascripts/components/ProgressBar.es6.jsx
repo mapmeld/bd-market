@@ -2,7 +2,7 @@ class ProgressBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bookProgress: '',
+      postProgress: '',
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -11,9 +11,9 @@ class ProgressBar extends React.Component {
     const scrollTop = event.srcElement.body.scrollTop;
     const viewHeight = $(window).height();
     const pageHeight = $('body').height();
-    const bookProgress = 100 / (pageHeight - viewHeight) * scrollTop;
+    const postProgress = 100 / (pageHeight - viewHeight) * scrollTop;
     window.addEventListener('scroll', this.handleScroll);
-    this.setState({ bookProgress });
+    this.setState({ postProgress });
   }
 
   componentWillUnmount() {
@@ -24,15 +24,15 @@ class ProgressBar extends React.Component {
     const scrollTop = event.srcElement.body.scrollTop;
     const viewHeight = $(window).height();
     const pageHeight = $('body').height();
-    const bookProgress = 100 / (pageHeight - viewHeight) * scrollTop;
-    this.setState({ bookProgress });
+    const postProgress = 100 / (pageHeight - viewHeight) * scrollTop;
+    this.setState({ postProgress });
   }
 
   render() {
     return (
       <span className="progressBar">
         {this.state.pageHeight}
-        <span className="bar" style={{ width: this.state.bookProgress + '%' }} />
+        <span className="bar" style={{ width: this.state.postProgress + '%' }} />
       </span>
     );
   }

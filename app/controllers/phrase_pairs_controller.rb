@@ -1,10 +1,10 @@
 class PhrasePairsController < AuthenticatedController
 
   def create
-    book = Book.find(params[:book_id])
-    if book.present?
-      authorize book
-      phrase_pair = book.phrase_pairs.create(create_or_update_params)
+    post = Post.find(params[:post_id])
+    if post.present?
+      authorize post
+      phrase_pair = post.phrase_pairs.create(create_or_update_params)
       render json: {phrase_pair: phrase_pair}, status: :ok
     else
       skip_authorization

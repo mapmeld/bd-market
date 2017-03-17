@@ -5,10 +5,10 @@ class SearchesController < ApplicationController
 
     if params[:q].length > 0
       q = "%#{params[:q].downcase}%"
-      @language = Book.where("source_language || target_language || title ilike ?", q).sort_by{|book| book.created_at}
+      @language = Post.where("source_language || target_language || title ilike ?", q).sort_by{|post| post.created_at}
         .reverse
-        .map do |book|
-          BookSerializer.new(book)
+        .map do |post|
+          PostSerializer.new(post)
         end
 
       @user = User.where("username ilike ?", q).sort_by{|user| user.created_at}

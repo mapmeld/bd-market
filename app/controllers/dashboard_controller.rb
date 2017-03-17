@@ -5,19 +5,19 @@ class DashboardController < SecureController
   def index
     @user = current_user
     @hashedEmail = Digest::MD5.hexdigest(@user.email)
-    @books = Book.all.order("created_at DESC").map do |book|
-      BookSerializer.new(book)
+    @posts = Post.all.order("created_at DESC").map do |post|
+      PostSerializer.new(post)
     end
-    @authoredBooks = Book
+    @authoredPosts = Post
       .where(user_id: @user)
       .order("created_at DESC")
-      .map do |book|
-          BookSerializer.new(book)
+      .map do |post|
+          PostSerializer.new(post)
     end
     @favorites = @user.favorites
       .order("created_at DESC")
-      .map do |book|
-          BookSerializer.new(book)
+      .map do |post|
+          PostSerializer.new(post)
     end
   end
 

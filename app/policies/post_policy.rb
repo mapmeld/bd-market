@@ -1,4 +1,4 @@
-class BookPolicy < ApplicationPolicy
+class PostPolicy < ApplicationPolicy
 
   def show?
     true

@@ -49,18 +49,18 @@ class PhraseSearchResult extends React.Component {
   }
 
   render() {
-    const createdDate  = new Date(this.props.phrase.book.created_at);
+    const createdDate  = new Date(this.props.phrase.post.created_at);
     const createdYear  = createdDate.getUTCFullYear();
     const months  = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const createdMonth  = months[createdDate.getMonth()];
     const createdDay  = createdDate.getDate();
 
     return (
-      <li className="bookEntry">
-        <a className="phrase" href={"books/" + this.props.phrase.book.id}>
+      <li className="postEntry">
+        <a className="phrase" href={"posts/" + this.props.phrase.post.id}>
           <section className="info">
             <section className="clear">
-              <h2 className="title">{this.props.phrase.book.title}</h2>
+              <h2 className="title">{this.props.phrase.post.title}</h2>
             </section>
             <section className="meta">
               <p className="date">{createdDay} {createdMonth} {createdYear}</p>
@@ -73,8 +73,4 @@ class PhraseSearchResult extends React.Component {
       </li>
     );
   }
-}
-
-BookEntry.propTypes = {
-
 };

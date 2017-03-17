@@ -2,11 +2,11 @@ class AdminNotifications < ApplicationMailer
 
   def new_user_email(user)
     @user = user
-    mail(to: 'poly@wikitongues.org', subject: 'New user: '+@user.username)
+    mail(to: 'ndoiron@mapmeld.com', subject: 'New user: '+@user.username)
   end
 
-  def new_book_email(book)
-    @book = book
-    mail(to: 'poly@wikitongues.org', subject: 'New book: '+@book.title)
+  def new_post_email(post)
+    @post = post
+    mail(to: 'ndoiron@mapmeld.com', subject: 'New post: '+@post.title)
   end
 end

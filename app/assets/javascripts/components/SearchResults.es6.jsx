@@ -1,8 +1,8 @@
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
-    this.renderCreateBookPanel = this.renderCreateBookPanel.bind(this);
-    this.renderCreateBookButton = this.renderCreateBookButton.bind(this);
+    this.renderCreatePostPanel = this.renderCreatePostPanel.bind(this);
+    this.renderCreatePostButton = this.renderCreatePostButton.bind(this);
     this.renderSearchResults = this.renderSearchResults.bind(this);
     this.renderUserSection = this.renderUserSection.bind(this);
     this.renderUserResults = this.renderUserResults.bind(this)
@@ -12,21 +12,21 @@ class SearchResults extends React.Component {
     // this.renderPhraseResults = this.renderPhraseResults.bind(this)
   }
 
-  renderCreateBookPanel() {
+  renderCreatePostPanel() {
     if (this.props.currentUser) {
       return (
-        <a href="/books/new" title="Create a new book">New book</a>
+        <a href="/posts/new" title="Create a new post">New post</a>
       );
     }
     return (
-      <a href="/sign_in" title="Create a new book">Log in to create new books</a>
+      <a href="/sign_in" title="Create a new post">Log in to create new posts</a>
     );
   }
 
-  renderCreateBookButton() {
+  renderCreatePostButton() {
     if (this.props.currentUser) {
       return (
-        <a href="/books/new" className="newBook" title="Create a new book">+</a>
+        <a href="/posts/new" className="newPost" title="Create a new post">+</a>
       );
     }
   }
@@ -53,9 +53,9 @@ class SearchResults extends React.Component {
         <div className="indexContent">
           <div className="controlPanel">
             <p>Usernames containing "{this.props.query}"</p>
-            <span className="bookCount search">{this.props.user.length}</span>
+            <span className="postCount search">{this.props.user.length}</span>
           </div>
-          <ul className="bookEntryList">
+          <ul className="postEntryList">
             {this.renderUserResults()}
           </ul>
         </div>
@@ -77,10 +77,10 @@ class SearchResults extends React.Component {
       return (
         <div className="indexContent">
           <div className="controlPanel">
-            <p>Books containing "{this.props.query}"</p>
-            <span className="bookCount search">{this.props.language.length}</span>
+            <p>Posts containing "{this.props.query}"</p>
+            <span className="postCount search">{this.props.language.length}</span>
           </div>
-          <ul className="bookEntryList">
+          <ul className="postEntryList">
             {this.renderLanguageResults()}
           </ul>
         </div>
@@ -89,11 +89,11 @@ class SearchResults extends React.Component {
   }
 
   renderLanguageResults() {
-    return this.props.language.map(book => (
-      <BookEntry
+    return this.props.language.map(post => (
+      <PostEntry
         users={this.props.users}
-        book={book}
-        key={book.id}
+        post={post}
+        key={post.id}
         cardinality={this.props.cardinality}
       />)
     );
@@ -105,9 +105,9 @@ class SearchResults extends React.Component {
   //       <div className="indexContent">
   //         <div className="controlPanel">
   //           <p>Phrases containing "{this.props.query}"</p>
-  //           <span className="bookCount search">{this.props.phrase.length}</span>
+  //           <span className="postCount search">{this.props.phrase.length}</span>
   //         </div>
-  //         <ul className="bookEntryList">
+  //         <ul className="postEntryList">
   //           {this.renderPhraseResults()}
   //         </ul>
   //       </div>
@@ -136,7 +136,7 @@ class SearchResults extends React.Component {
         />
         <div className="dashboard">
           {this.renderSearchResults()}
-          {this.renderCreateBookButton()}
+          {this.renderCreatePostButton()}
         </div>
       </div>
     );
@@ -147,7 +147,7 @@ SearchResults.propTypes = {
   currentUser: React.PropTypes.shape({
     created_at: React.PropTypes.string,
     email: React.PropTypes.string,
-    favorite_books: React.PropTypes.array,
+    favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
   }),

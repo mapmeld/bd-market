@@ -11,12 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170210204720) do
+ActiveRecord::Schema.define(version: 20170317151026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "books", force: :cascade do |t|
+  create_table "favorite_posts", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "phrase_pairs", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.text     "source_phrase", null: false
+    t.text     "target_phrase", null: false
+    t.integer  "post_id",       null: false
+  end
+
+  add_index "phrase_pairs", ["post_id"], name: "index_phrase_pairs_on_post_id", using: :btree
+
+  create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -27,29 +44,7 @@ ActiveRecord::Schema.define(version: 20170210204720) do
     t.string   "video_description"
   end
 
-  add_index "books", ["user_id"], name: "index_books_on_user_id", using: :btree
-
-  create_table "favorite_books", force: :cascade do |t|
-    t.integer  "book_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "languages", force: :cascade do |t|
-    t.string "name"
-    t.string "iso"
-  end
-
-  create_table "phrase_pairs", force: :cascade do |t|
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.text     "source_phrase", null: false
-    t.text     "target_phrase", null: false
-    t.integer  "book_id",       null: false
-  end
-
-  add_index "phrase_pairs", ["book_id"], name: "index_phrase_pairs_on_book_id", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -65,12 +60,11 @@ ActiveRecord::Schema.define(version: 20170210204720) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "username"
-    t.boolean  "admin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
-  add_foreign_key "books", "users"
+  add_foreign_key "posts", "users"
 end

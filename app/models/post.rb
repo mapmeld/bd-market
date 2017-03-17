@@ -1,4 +1,4 @@
-class Book < ActiveRecord::Base
+class Post < ActiveRecord::Base
 
   has_many :phrase_pairs, dependent: :destroy
 
@@ -8,7 +8,7 @@ class Book < ActiveRecord::Base
 
   # after_create :send_admin_notification
   def send_admin_notification
-    AdminNotifications.new_book_email(self).deliver
+    AdminNotifications.new_post_email(self).deliver
   end
 
 end

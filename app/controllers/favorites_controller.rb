@@ -1,13 +1,13 @@
 class FavoritesController < SecureController
 
   def create
-    book = Book.find(params[:book_id])
+    post = Post.find(params[:post_id])
     #TODO: get this working correctly
     skip_policy_scope
     skip_authorization
 
-    if book
-      current_user.favorites << book
+    if post
+      current_user.favorites << post
       render json: {}, status: :ok
     else
       render json: {}, status: 404
@@ -15,14 +15,14 @@ class FavoritesController < SecureController
   end
 
   def destroy
-    favorite_book = Book.find(params[:id])
+    favorite_post = Post.find(params[:id])
 
     #TODO: get this working correctly
     skip_policy_scope
     skip_authorization
 
-    if favorite_book
-      current_user.favorites.delete(favorite_book)
+    if favorite_post
+      current_user.favorites.delete(favorite_post)
       render json: {}, status: :ok
     else
       render json: {}, status: 404

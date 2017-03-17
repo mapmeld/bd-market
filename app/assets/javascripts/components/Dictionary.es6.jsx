@@ -48,10 +48,10 @@ class Dictionary extends React.Component {
     if (this.refs.targetInput) {
       this.refs.targetInput.blur();
     }
-    if (this.state.isPhraseInputActive && this.refs.sourceInput && !this.props.isEditingBook) {
+    if (this.state.isPhraseInputActive && this.refs.sourceInput && !this.props.isEditingPost) {
       this.refs.sourceInput.focus();
     }
-    if (this.state.isTargetInputActive && this.refs.targetInput && !this.props.isEditingBook) {
+    if (this.state.isTargetInputActive && this.refs.targetInput && !this.props.isEditingPost) {
       this.refs.targetInput.focus();
     }
   }
@@ -457,7 +457,7 @@ class Dictionary extends React.Component {
 
 Dictionary.propTypes = {
   initialPhrasePairs: React.PropTypes.arrayOf(React.PropTypes.shape({
-    book_id: React.PropTypes.number,
+    post_id: React.PropTypes.number,
     created_at: React.PropTypes.string,
     id: React.PropTypes.number,
     source_phrase: React.PropTypes.string,

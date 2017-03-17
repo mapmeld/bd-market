@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get "/search" => "searches#search"
 
-  resources :books, only: [:show, :new, :create, :destroy, :update]
+  resources :posts, only: [:show, :new, :create, :destroy, :update]
 
   resources :phrase_pairs, only: [:create, :destroy, :update]
   resources :users, only: [:show]
