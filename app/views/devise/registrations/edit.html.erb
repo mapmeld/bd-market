@@ -1,0 +1,55 @@
+<%= render 'layouts/header'%>
+<div class="editProfile" id="profile">
+  <div class="userInformation">
+    <div class="wrapper">
+      <img src="https://www.gravatar.com/avatar/<%= gravatarify(@user.email) %>?s=200" width="200px" height="200px"/>
+      <span class="details">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+          <%= f.text_field :username, autofocus: true%>
+
+          <p class="joined">Joined <%= @user.created_at.strftime("%B %Y")%></p>
+
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true %>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+          <span class="note email">Please enter your password to save your changes</span>
+          <%= f.password_field :current_password, placeholder:"Password", autocomplete: "off" %>
+
+          <%= devise_error_messages! %>
+
+          <%= f.submit "Save changes" %>
+        <% end %>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |j| %>
+          <p>Change Password</p>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+
+            <%= j.label :current_password %> <br />
+            <%= j.password_field :current_password, placeholder:"Current password", autocomplete: "off" %>
+
+            <%= j.label :new_password %> <br />
+            <%= j.password_field :password, placeholder:"New password", autocomplete: "off" %>
+
+            <%= j.label :confirm_new_password %><br />
+            <%= j.password_field :password_confirmation, placeholder:"Confirm new password", autocomplete: "off" %>
+
+            <%= devise_error_messages! %>
+
+            <%= j.submit "Update password" %>
+
+        <% end %>
+        <div class="dangerZone">
+          <p>Danger zone</p>
+          <span class="note">Deleting your account is an irreversible action. <br> All your content will be erased.</span>
+          <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %>
+        </div>
+      </span>
+    </div>
+  </div>
+</div>

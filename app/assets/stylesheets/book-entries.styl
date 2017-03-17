@@ -1,0 +1,124 @@
+ul.bookEntryList
+  background $white
+  padding 0
+  margin 0
+  list-style-type none
+  width 100%
+  box-shadow 0 1px 2px rgba(0,0,0,0.1)
+  transition background $time*2 ease-in-out, opacity $time*2 ease-in-out
+
+  &:hover
+    background lighten($source, 80%)
+
+    li
+      opacity .6
+
+  li.bookEntry, li.emptyList
+    overflow hidden
+    display table
+    border-bottom 1px solid lighten($source, 35%)
+    width 100%
+    transition background $time*2 ease-in-out, opacity $time*2 ease-in-out
+
+    &:last-of-type
+      border-bottom none
+
+    &:hover
+      opacity 1
+      background $white
+      border-bottom-color lighten($source, 55%)
+
+    a
+      display inline-block
+      width 100%
+      height 100%
+      float left
+      border-left 3px solid transparent
+
+      &:focus
+        outline none
+        border-left-color #FEC23D
+
+      img
+        float left
+        margin 30px
+
+      p
+        margin 7px 0 0 0
+        float left
+        overflow hidden
+        text-overflow ellipsis
+        white-space nowrap
+
+      section
+        display inline-block
+
+        &.info
+          width 100%
+          float left
+
+          .clear
+            padding 15px 0 15px 15px
+            width 70%
+            float left
+
+            .title
+              float left
+              margin 0 0 7px 0
+              font-weight 500
+              font-size 1.3em
+
+            .details
+              float left
+              display inline-block
+              clear left
+              margin 0
+              width 100%
+
+              .count
+                font-size .5em
+                padding 2px 5px 1px 4px
+                color darken($whiteHover, 40%)
+                margin 2px 5px 0 0
+                background $source
+                border 1px solid #e1ebef
+                float left
+                border-radius 9px 9px 9px 0
+                color black
+
+              .language
+                text-transform capitalize
+                float left
+                font-weight 100
+                text-align center
+                padding 0
+                margin 0
+                max-width 45%
+
+              img
+                float left
+                margin 0
+                padding 0 4px
+
+          .meta
+            padding 15px 15px 15px 0
+            width 29%
+            float right
+            margin 0
+
+            p
+              float right
+              text-align right
+              margin 0
+              clear right
+              font-size .8em
+              color #aaa
+              font-weight 100
+              white-space normal
+              width 100%
+
+              &:first-of-type
+                margin-top 4px
+
+              &:last-of-type
+                margin-top 10px

@@ -1,0 +1,67 @@
+// Blues
+$darkBlue = #11242F
+$blue = #4799FC
+$secondaryBlue = #B7BCBF
+
+// Phrase colors
+$source = #E7EFF2
+$target = #C6E7FF
+
+// Whites
+$white = #FFFFFF
+$whiteHover = #F2F5F6
+$grey = #A9A9A9
+
+// Yellow
+$yellow = #FFC328
+
+// Red
+$red = #ff5f66
+$darkRed = #ff4c4c
+
+// Misc
+$time = 0.1s
+$radius = 2px
+$sans = 'Roboto', sans-serif
+
+textButton()
+  text-decoration none
+  text-align center
+  border-radius 2px
+  padding 8px 16px
+  background $blue
+  font-weight normal
+  font-size small
+  border none
+
+boxShadow()
+  box-shadow 0 1px 2px rgba(0,0,0,0.1)
+
+materialButton()
+  font-size 3em
+  font-weight bold
+  text-decoration none
+  height 60px
+  width 60px
+  text-align center
+  line-height 1.2em
+  border-radius 100%
+  background $blue
+  text-shadow 0 2px 0 #558FCE
+  color $white
+  box-shadow 0 1px 0 rgba(51, 111, 176,1), 0 2px 4px rgba(34,84,137,0.5)
+  border-top 1px solid #68ABFD !important
+  transition box-shadow $time ease-in-out
+
+  &:hover
+    box-shadow 0 1px 0 rgba(51, 111, 176,1), 0 4px 6px rgba(34,84,137,0.44)
+
+placeholder-color(color)
+  &::-webkit-input-placeholder
+     color color !important
+  &:-moz-placeholder  /* Firefox 18- */
+     color color !important
+  &::-moz-placeholder  /* Firefox 19+ */
+     color color !important
+  &:-ms-input-placeholder
+     color color !important

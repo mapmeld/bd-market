@@ -1,0 +1,144 @@
+.dictionary
+  min-height 27.5%
+  display block
+  position relative
+  z-index 1
+  margin auto
+  font-size 1.2em
+  padding 0
+  background $white
+  float left
+  width 100%
+  max-width 600px
+  border-top 2px solid #f4f8f9
+
+  &.new
+    min-height 0
+
+  .notice
+    position absolute
+    margin-top 160px
+    width 100%
+    text-align center
+    color $secondaryBlue
+    left 0
+
+  ul.content
+    clear both
+    width 100%
+    padding 0
+    margin 0
+    display inline-block
+    float left
+    transition background $time*2 ease-in-out
+
+    &:hover
+      background lighten($source, 80%)
+
+    p.empty
+      text-align center
+      color $secondaryBlue
+      width ((2/3)*100)%
+      margin 0
+      position absolute
+      top 50%
+      left 50%
+      transform translateX(-50%) translateY(-50%)
+      font-size 1.4em
+
+  .addPhrase
+    position fixed
+    z-index 10
+    left 50%
+    transform translateX(-50%)
+    bottom 0
+    materialButton()
+    display block
+    margin 0 auto .5em
+    font-size 2em
+    line-height 1em
+    border none
+    outline none
+    cursor pointer
+
+  .inputMethod
+    width 100%
+    float left
+    background #fafcfc
+    border-top 2px solid #e9f1f3
+
+    label
+      float left
+      background transparent
+      border none
+      color $blue
+      font-weight 500
+      font-size 1em
+      padding 1em
+
+      input
+        display block
+        float left
+        margin 6px 6px 0 0
+
+    .inputOptions
+      float right
+      padding-right 5px
+
+      button
+        float left
+        margin 5px 3px
+        width 40px
+        height 40px
+        border-radius 100%
+        outline none
+        background-color transparent
+        &.text
+          background #E9F1F3
+
+        &:nth-child(2)
+          transition opacity 0.2s ease-in
+
+        &:hover
+          background-color #EFF5F7
+
+        .video
+          opacity .5
+
+  .newPhrase
+    float left
+    width 100%
+    border-top 1px solid #f0F3F5
+    overflow hidden
+    transition height $time ease-in-out, margin-top $time ease-in-out, margin-bottom $time ease-in-out
+
+    input
+      border none
+      font-size 1em
+      padding 1em 2em
+      outline none
+      height 80px
+      width 500px
+      float left
+      background $white
+      transition padding 1ms ease-in-out, border-left 1ms ease-in-out
+
+      &.focus
+        padding 1em 2em 1em 1.5em
+        border-left .5em solid #FDBE2C
+
+    button.savePhrase
+      background transparent
+      border none
+      color $blue
+      width 100px
+      text-align center
+      font-weight 400
+      padding 16px 0
+      margin 10px 0
+      border-left 2px solid #eee
+      display inline-block
+      cursor pointer
+      font-size 1em
+      outline none
+
