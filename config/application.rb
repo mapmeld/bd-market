@@ -27,7 +27,9 @@ module Poly
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.middleware.use I18n::JS::Middleware
+    config.i18n.default_locale = :bd
+
     config.react.addons = true
 
     #Rails 4 asset pipeline on Heroku: https://devcenter.heroku.com/articles/rails-4-asset-pipeline

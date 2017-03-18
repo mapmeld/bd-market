@@ -16,6 +16,10 @@
 //= require react
 //= require react_ujs
 //= require components
+
+I18n = {}
+I18n.defaultLocale = "bd";
+I18n.locale = "bd";
 //= require i18n.js
 //= require i18n/translations
 //= require_tree .

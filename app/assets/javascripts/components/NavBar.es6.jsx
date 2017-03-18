@@ -12,7 +12,7 @@ class NavBar extends React.Component {
               <span>{this.props.currentUser.username}</span>
               <img className="mobile" src={this.props.menu} />
             </a>
-            <a href="/features">Roadmap</a>
+            <a href="/test">{I18n.t('hello')}</a>
             <a href="/sign_out">Sign out</a>
           </div>
       );
