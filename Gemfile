@@ -31,6 +31,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'react-rails', '~> 1.5.0'
 gem 'lodash-rails'
+gem 'i18n-js', '>= 3.0.0.rc11'
 
 gem 'devise'
 gem 'pundit'

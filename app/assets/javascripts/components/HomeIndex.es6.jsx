@@ -42,7 +42,6 @@ class HomeIndex extends React.Component {
       <div className="container">
         <NavBar
           currentUser={this.props.currentUser}
-          logo={this.props.logo}
           detail={this.props.detail}
           search={this.props.search}
         />
@@ -94,7 +93,6 @@ HomeIndex.propTypes = {
     username: React.PropTypes.string,
   })),
   cardinality: React.PropTypes.string,
-  logo: React.PropTypes.string,
   detail: React.PropTypes.string,
   search: React.PropTypes.string,
 };

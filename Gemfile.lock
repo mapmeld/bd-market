@@ -107,6 +107,8 @@ GEM
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
+    i18n-js (3.0.0.rc13)
+      i18n (~> 0.6, >= 0.6.6)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -264,6 +266,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   factory_girl_rails (~> 4.0)
+  i18n-js (>= 3.0.0.rc11)
   jbuilder (~> 2.0)
   jquery-rails
   lodash-rails
@@ -285,4 +288,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.14.2
+   1.14.4

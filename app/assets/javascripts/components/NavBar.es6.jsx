@@ -30,7 +30,7 @@ class NavBar extends React.Component {
     return (
       <nav>
         <a className="icon home" href="/">
-          <img src={this.props.logo} alt="Poly Home" />
+          BD-Market
           <span className="detail">
             <img src={this.props.detail} alt="" />
           </span>
@@ -51,7 +51,6 @@ NavBar.propTypes = {
     username: React.PropTypes.string,
   }),
   menu: React.PropTypes.string,
-  logo: React.PropTypes.string,
   detail: React.PropTypes.string,
   query: React.PropTypes.string,
   search: React.PropTypes.string,
