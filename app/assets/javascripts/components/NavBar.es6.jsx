@@ -32,7 +32,6 @@ class NavBar extends React.Component {
         <a className="icon home" href="/">
           BD-Market
           <span className="detail">
-            <img src={this.props.detail} alt="" />
           </span>
         </a>
         <SearchBar query={this.props.query} search={this.props.search} />
