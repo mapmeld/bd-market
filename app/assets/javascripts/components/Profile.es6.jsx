@@ -7,6 +7,7 @@ class Profile extends React.Component {
       showingPosts: true,
     };
     this.renderAllPosts = this.renderAllPosts.bind(this);
+    this.renderAllUsers = this.renderAllUsers.bind(this);
     this.renderAuthoredPosts = this.renderAuthoredPosts.bind(this);
     this.renderFavoritePosts = this.renderFavoritePosts.bind(this);
     this.currentUserProfile = this.currentUserProfile.bind(this);
@@ -29,6 +30,14 @@ class Profile extends React.Component {
           cardinality={this.props.cardinality}
           phrase={this.props.phrase}
         />
+      );
+    });
+  }
+  
+  renderAllUsers() {
+    return this.props.users.map((user) => {
+      return (
+        <span>{user}</span>
       );
     });
   }
@@ -225,6 +234,7 @@ class Profile extends React.Component {
               <span className="tooltip">?</span>
               <span className="details">
                 <h2>{this.props.userData.username}</h2>
+                <p>Role: {this.props.userData.role}</p>
                 <p>Joined {createdMonth} {createdYear}</p>
                 {this.renderEditButton()}
               </span>
@@ -234,6 +244,11 @@ class Profile extends React.Component {
             </div>
           </div>
           <div className="dashboard">
+            <div className="friends">
+              <ul className="postEntryList">
+                {this.renderAllUsers()}
+              </ul>
+            </div>
             <div className="indexContent">
               <div className="controlPanel">
                 <p>Recent posts</p>
@@ -264,7 +279,16 @@ Profile.propTypes = {
       favorite_posts: React.PropTypes.array,
       id: React.PropTypes.number,
       username: React.PropTypes.string,
+      role: React.PropTypes.string
     }),
+  })),
+  users: React.PropTypes.arrayOf(React.PropTypes.shape({
+    created_at: React.PropTypes.string,
+    email: React.PropTypes.string,
+    favorite_posts: React.PropTypes.array,
+    id: React.PropTypes.number,
+    username: React.PropTypes.string,
+    role: React.PropTypes.string
   })),
   userData: React.PropTypes.shape({
     created_at: React.PropTypes.string,
@@ -272,6 +296,7 @@ Profile.propTypes = {
     favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
+    role: React.PropTypes.string
   }),
   cardinality: React.PropTypes.string,
   authoredPosts: React.PropTypes.arrayOf(React.PropTypes.shape({
@@ -310,6 +335,7 @@ Profile.propTypes = {
     favorite_posts: React.PropTypes.array,
     id: React.PropTypes.number,
     username: React.PropTypes.string,
+    role: React.PropTypes.string
   }),
   menu: React.PropTypes.string,
   logo: React.PropTypes.string,

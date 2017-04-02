@@ -5,6 +5,7 @@ class DashboardController < SecureController
   def index
     @user = current_user
     @hashedEmail = Digest::MD5.hexdigest(@user.email)
+    @friends = @user.users
     @posts = Post.all.order("created_at DESC").map do |post|
       PostSerializer.new(post)
     end
