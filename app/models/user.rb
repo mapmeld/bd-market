@@ -11,12 +11,17 @@ class User < ActiveRecord::Base
 
   has_many :favorite_posts
   has_many :favorites, through: :favorite_posts, source: :post
-  belongs_to :user_user
-  has_many :users, through: :user_users, source: :user
+  
+  has_many :farmers, class_name: "User", foreign_key: :manager_id
+  belongs_to :manager, class_name: "User"
 
   after_create :send_admin_notification
   def send_admin_notification
     # AdminNotifications.new_user_email(self).deliver
+  end
+  
+  def manager?
+    manager_id.nil?
   end
 
   def authored_posts
