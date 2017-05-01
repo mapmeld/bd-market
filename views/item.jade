@@ -1,0 +1,55 @@
+doctype
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
+    title BD-Market
+    link(rel="stylesheet", href="/lib/bootstrap.min.css")
+    link(rel="stylesheet", href="/custom.css")
+  body
+    .container
+      .row
+        .col-sm-12
+          h2.centered BD-Market
+          h4.centered
+            span test market for farmers' products
+            br
+            br
+            if user
+              a.btn.btn-primary.btn-lg(href="/cart") View Cart
+              span &nbsp;&nbsp;&nbsp;&nbsp;
+              a.btn.btn-default.btn-lg(href="/logout") Log Out
+            else
+              a.btn.btn-default.btn-lg(href="/login") Log In
+            hr
+
+      .row
+        .col-sm-3
+          .well.centered
+            a(href="/item/#{item._id}")
+              img(src="//placehold.it/200x150")
+        .col-sm-9
+          h3
+            span #{item.thing}
+            small (#{item.quantity - item.sold} / #{item.quantity})
+          span from&nbsp;
+          a(href="/farmers/#{item.farmer.uid}")= item.farmer.name
+        hr
+        .col-sm-12
+          if (item.quantity - item.sold > 0)
+            input#unit(type="hidden", value=item.cost)
+            input#remainder(type="hidden", value=(item.quantity - item.sold))
+            
+            form.form.well(action="/item/#{item._id}/buy", method="POST")
+              input(type="hidden", name="_csrf", value=csrfToken)
+              .form-group
+                label Quantity
+                input#quantity.form-control.input-lg(type="number", name="quantity", value="1")
+              .form-group
+                label Total
+                input#total.form-control(disabled, value="$#{item.cost}")
+              .form-group
+                input.btn.btn-primary(type="submit", value="Buy Now")
+          else
+            a.btn.btn-primary(disabled) SOLD OUT
+          script(src="/checkout.js")

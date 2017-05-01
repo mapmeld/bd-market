@@ -1,0 +1,32 @@
+doctype
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
+    title BD-Market
+    link(rel="stylesheet", href="/lib/bootstrap.min.css")
+    link(rel="stylesheet", href="/custom.css")
+  body
+    .container
+      .row
+        .col-sm-12
+          h2.centered BD-Market
+          h4.centered Marketplace
+      .row
+        .col-sm-6
+          span If you haven't created an account,&nbsp;
+          a.btn.btn-primary(href="/register") Register Now
+          form.form.well(action="/auth/local", method="POST")
+            input(type="hidden", name="_csrf", value=csrfToken)
+            .form-group
+              label Username
+              input.form-control.input-lg(name="username", required)
+            .form-group
+              label Password
+              input.form-control.input-lg(type="password", name="password", required)
+            .form-group
+              input.btn.btn-lg.btn-success(type="submit", value="Log In")
+            
+        .col-sm-6
+          h4 What is this?
+          p This is an experimental project...

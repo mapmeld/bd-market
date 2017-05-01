@@ -1,0 +1,18 @@
+.centered {
+  text-align: center;
+}
+
+.mobile-only {
+  display: none;
+}
+
+h3 small {
+  margin-left: 15px;
+  vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+  .mobile-only {
+    display: inline;
+  }
+}

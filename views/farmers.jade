@@ -1,0 +1,33 @@
+doctype
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=no")
+    title BD-Market
+    link(rel="stylesheet", href="/lib/bootstrap.min.css")
+    link(rel="stylesheet", href="/custom.css")
+  body
+    .container
+      .row
+        .col-sm-12
+          h2.centered BD-Market
+          h4.centered
+            span test market for farmers' products
+            br
+            br
+            if user
+              a.btn.btn-primary.btn-lg(href="/cart") View Cart
+              span &nbsp;&nbsp;&nbsp;&nbsp;
+              a.btn.btn-default.btn-lg(href="/logout") Log Out
+            else
+              a.btn.btn-default.btn-lg(href="/login") Log In
+            hr
+
+      for farmer in farmers
+        .row
+          .col-sm-3
+            .well
+          .col-sm-9
+            h4
+              a(href="/farmers/#{farmer.user_id}")= farmer.name
+        hr
