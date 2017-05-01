@@ -175,10 +175,14 @@ app.post('/item/:item_id/buy', middleware, (req, res) => {
       if (err) {
         throw err;
       }
+      var buyer = req.user || {
+        name: 'TEST',
+        _id: 'TEST'
+      };
       var o = new Order({
         customer: {
-          name: req.user.name,
-          id: req.user._id
+          name: buyer.name,
+          id: buyer._id
         },
         item: {
           name: item.thing,
