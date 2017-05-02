@@ -10,30 +10,30 @@ html
     .container
       .row
         .col-sm-12
-          h2.centered BD-Market
+          h2.centered.translate BD-Market
           h4.centered
-            span test market for farmers' products
+            span.translate test market for farmers' products
             br
             br
             if user
-              a.btn.btn-primary.btn-lg(href="/cart") View Cart
+              a.btn.btn-primary.btn-lg.translate(href="/cart") View Cart
               span &nbsp;&nbsp;&nbsp;&nbsp;
-              a.btn.btn-default.btn-lg(href="/logout") Log Out
+              a.btn.btn-default.btn-lg.translate(href="/logout") Log Out
             else
-              a.btn.btn-default.btn-lg(href="/login") Log In
+              a.btn.btn-default.btn-lg.translate(href="/login") Log In
             hr
 
       .row
         .col-sm-3
           .well.centered
-            a(href="/item/#{item._id}")
-              img(src="//placehold.it/200x150")
+            img(src="#{item.img || '//placehold.it/200x150'}")
         .col-sm-9
           h3
             span #{item.thing}
             small (#{item.quantity - item.sold} / #{item.quantity})
-          span from&nbsp;
-          a(href="/farmers/#{item.farmer.uid}")= item.farmer.name
+          span.translate from
+          span &nbsp;
+          a.farmer-name(href="/farmers/#{item.farmer.uid}")= item.farmer.name
         hr
         .col-sm-12
           if (item.quantity - item.sold > 0)
@@ -43,13 +43,14 @@ html
             form.form.well(action="/item/#{item._id}/buy", method="POST")
               input(type="hidden", name="_csrf", value=csrfToken)
               .form-group
-                label Quantity
+                label.translate Quantity
                 input#quantity.form-control.input-lg(type="number", name="quantity", value="1")
               .form-group
-                label Total
-                input#total.form-control(disabled, value="$#{item.cost}")
+                label.translate Total
+                input#total.form-control(disabled, value="৳#{item.cost}")
               .form-group
-                input.btn.btn-primary(type="submit", value="Buy Now")
+                input.btn.btn-primary.translate(type="submit", value="Buy Now")
           else
-            a.btn.btn-primary(disabled) SOLD OUT
-          script(src="/checkout.js")
+            a.btn.btn-primary.translate(disabled) SOLD OUT
+    script(src="/translations.js")
+    script(src="/checkout.js")

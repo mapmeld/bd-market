@@ -10,23 +10,26 @@ html
     .container
       .row
         .col-sm-12
-          h2.centered BD-Market
-          h4.centered Marketplace
+          h2.centered.translate BD-Market
+          h4.centered.translate test market for farmers' products
       .row
         .col-sm-6
-          span If you haven't created an account,&nbsp;
-          a.btn.btn-primary(href="/register") Register Now
+          span.translate If you haven't created an account,
+          span &nbsp;
+          a.btn.btn-primary.translate(href="/register") Register Now
           form.form.well(action="/auth/local", method="POST")
             input(type="hidden", name="_csrf", value=csrfToken)
             .form-group
-              label Username
+              label.translate Username
               input.form-control.input-lg(name="username", required)
             .form-group
-              label Password
+              label.translate Password
               input.form-control.input-lg(type="password", name="password", required)
             .form-group
-              input.btn.btn-lg.btn-success(type="submit", value="Log In")
+              input.btn.btn-lg.btn-success.translate(type="submit", value="Log In")
             
         .col-sm-6
           h4 What is this?
           p This is an experimental project...
+
+    script(src="/translations.js")

@@ -53,16 +53,17 @@ const middleware = ((typeof global.it === 'function') ? passThrough : csrfProtec
 require('./login')(app, middleware);
 
 app.get('/', middleware, (req, res) => {
-  /*
+  res.render('index', {
+    user: req.user
+  });
+});
+
+app.get('/dump', middleware, (req, res) => {
   User.find({ test: true }).remove((err) => {
     Item.find({ test: true }).remove((err) => {
     });
   });
-  */
-
-  res.render('index', {
-    user: req.user
-  });
+  res.send('dumping test data...');
 });
 
 app.get('/farmers', middleware, (req, res) => {
@@ -87,6 +88,30 @@ app.get('/farmers', middleware, (req, res) => {
   });
 });
 
+app.get('/farmers/:username', middleware, (req, res) => {
+  User.findOne({ user_id: req.params.username }, (err, farmer) => {
+    if (err) {
+      throw err;
+    }
+    if (!farmer) {
+      return res.json({ error: 'no farmer with this ID' });
+    }
+    
+    Item.find({ 'farmer.uid': req.params.username }, (err, items) => {
+      if (err) {
+        throw err;
+      }
+    
+      res.render('farmer', {
+        user: req.user,
+        csrfToken: req.csrfToken(),
+        farmer: farmer,
+        items: items
+      });
+    });
+  });
+});
+
 app.get('/store', middleware, (req, res) => {
   Item.find({}).limit(10).exec((err, items) => {
     if (err) {
@@ -101,13 +126,21 @@ app.get('/store', middleware, (req, res) => {
           return;
         }
 
-        var sampleItems = ['apples', 'peas', 'carrots', 'oranges', 'bags of rice'];
+        var sampleItems = [
+          { word: 'apples', img: '/img/apple.png' },
+          { word: 'peas', img: '/img/peas.png' },
+          { word: 'carrots', img: '/img/carrot.png' },
+          { word: 'oranges', img: '/img/orange.png' },
+          { word: 'bags of rice', img: '/img/rice.png' }
+        ];
         for (var i = 0; i < 10; i++) {
           var farmer = farmers[Math.floor( Math.random() * farmers.length )];
           var q = Math.ceil(Math.random() * 10);
-          var cost = ((100 + Math.random() * 600) / 100).toFixed(2);
+          var cost = (100 + Math.random() * 600).toFixed(2);
+          var baseItem = sampleItems[Math.floor(Math.random() * sampleItems.length)];
           var x = new Item({
-            thing: sampleItems[Math.floor(Math.random() * sampleItems.length)],
+            thing: baseItem.word,
+            img: baseItem.img,
             farmer: {
               uid: farmer.user_id,
               name: farmer.name

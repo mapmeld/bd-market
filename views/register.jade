@@ -10,35 +10,37 @@ html
     .container
       .row
         .col-sm-12
-          h2.centered BD-Market
-          h4.centered Marketplace
+          h2.centered.translate BD-Market
+          h4.centered.translate test market for farmers' products
       .row
         .col-sm-6
           form.form.well(action="/register", method="POST")
             input(type="hidden", name="_csrf", value=csrfToken)
             .form-group
-              label Username
+              label.translate Username
               input.form-control.input-lg(name="user_id", required)
             .form-group
-              label Password
+              label.translate Password
               input.form-control.input-lg(name="password", required)
             .form-group
-              label Name
+              label.translate Name
               input.form-control.input-lg(name="name", required)
             .form-group
-              label E-mail
+              label.translate E-mail
               input.form-control.input-lg(type="email", name="email", required)
             .form-group
-              label Preferred Language (type one)
+              label.translate Preferred Language (type one)
               input.form-control(name="preferLanguage")
             .form-group
-              label Role
+              label.translate Role
               select(name="role")
-                option(value="customer") customer
-                option(value="farmer") farmer
-                option(value="manager") manager
-            input.btn.btn-success(type="submit", value="Create User")
+                option.translate(value="customer") Customer
+                option.translate(value="farmer") Farmer
+                option.translate(value="manager") Manager
+            input.btn.btn-success.translate(type="submit", value="Create User")
             
         .col-sm-6
           h4 What is this?
           p This is an experimental project...
+
+    script(src="/translations.js")

@@ -10,17 +10,17 @@ html
     .container
       .row
         .col-sm-12
-          h2.centered BD-Market
+          h2.centered.translate BD-Market
           h4.centered
-            span test market for farmers' products
+            span.translate test market for farmers' products
             br
             br
             if user
-              a.btn.btn-primary.btn-lg(href="/cart") View Cart
+              a.btn.btn-primary.btn-lg.translate(href="/cart") View Cart
               span &nbsp;&nbsp;&nbsp;&nbsp;
-              a.btn.btn-default.btn-lg(href="/logout") Log Out
+              a.btn.btn-default.btn-lg.translate(href="/logout") Log Out
             else
-              a.btn.btn-default.btn-lg(href="/login") Log In
+              a.btn.btn-default.btn-lg.translate(href="/login") Log In
             hr
 
       for item in items
@@ -29,16 +29,27 @@ html
             .well.centered
               if (item.quantity - item.sold > 0)
                 a(href="/item/#{item._id}")
-                  img(src="//placehold.it/200x150")
-                  button.btn.btn-primary Buy ($#{item.cost})
+                  img(src="#{item.img || '//placehold.it/200x150'}")
+                  button.btn.btn-primary
+                    span.translate Buy
+                    span &nbsp;(৳#{item.cost})
               else
                 a(href="/item/#{item._id}")
-                  img(src="//placehold.it/200x150")
-                  button.btn.btn-primary(disabled) Sold Out
+                  img(src="#{item.img || '//placehold.it/200x150'}")
+                  button.btn.btn-primary.translate(disabled) Sold Out
           .col-sm-9
             h3
-              span #{item.thing}
-              small (#{item.quantity - item.sold} / #{item.quantity})
-            span from&nbsp;
-            a(href="/farmers/#{item.farmer.uid}")= item.farmer.name
+              a(href="/item/#{item._id}")
+                span #{item.thing}
+              if (item.quantity - item.sold > 0)
+                small
+                  span (#{item.quantity - item.sold}&nbsp;
+                  span.translate remaining
+                  span )
+              else
+                small.translate Sold Out
+            span.translate from
+            span &nbsp;
+            a.farmer-name(href="/farmers/#{item.farmer.uid}")= item.farmer.name
         hr
+    script(src="/translations.js")

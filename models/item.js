@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const itemSchema = mongoose.Schema({
   thing: String,
+  img: String,
   isService: Boolean,
   farmer: {
     uid: String,

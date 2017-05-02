@@ -11,6 +11,16 @@ h3 small {
   vertical-align: middle;
 }
 
+.well img {
+  max-width: 100%;
+  background: #fff;
+}
+
+[lang='bd'] .farmer-name {
+  float: left;
+  margin-right: 7px;
+}
+
 @media (max-width: 900px) {
   .mobile-only {
     display: inline;
