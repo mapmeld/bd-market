@@ -10,17 +10,17 @@ html
     .container
       .row
         .col-sm-12
-          h2.centered BD-Market
+          h2.centered.translate BD-Market
           h4.centered
-            span test market for farmers' products
+            span.translate test market for farmers' products
             br
             br
             if user
-              a.btn.btn-primary.btn-lg(href="/cart") View Cart
+              a.btn.btn-primary.btn-lg.translate(href="/cart") View Cart
               span &nbsp;&nbsp;&nbsp;&nbsp;
-              a.btn.btn-default.btn-lg(href="/logout") Log Out
+              a.btn.btn-default.btn-lg.translate(href="/logout") Log Out
             else
-              a.btn.btn-default.btn-lg(href="/login") Log In
+              a.btn.btn-default.btn-lg.translate(href="/login") Log In
             hr
 
       for farmer in farmers
@@ -32,3 +32,4 @@ html
             h4
               a(href="/farmers/#{farmer.user_id}")= farmer.name
         hr
+    script(src="/translations.js")
