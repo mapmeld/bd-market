@@ -7,12 +7,14 @@ const orderSchema = mongoose.Schema({
   },
   item: {
     name: String,
-    id: String
+    id: String,
+    img: String
   },
   quantity: Number,
   farmer: String,
   time: Date,
   total: String,
+  completed: Boolean,
   test: Boolean
 });
 

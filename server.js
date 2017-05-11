@@ -165,6 +165,23 @@ app.get('/store', middleware, (req, res) => {
   });
 });
 
+app.get('/cart', middleware, (req, res) => {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
+  Order.find({ completed: false, 'customer.id': req.user._id }, (err, openOrders) => {
+    if (err) {
+      throw err;
+    }
+    
+    res.render('cart', {
+      orders: openOrders,
+      user: req.user
+    });
+  });
+});
+
 // individual item page
 app.get('/item/:item_id', middleware, (req, res) => {
   Item.findById(req.params.item_id, (err, item) => {
@@ -174,12 +191,43 @@ app.get('/item/:item_id', middleware, (req, res) => {
     if (!item) {
       return res.json({ error: 'item does not exist' });
     }
-
-    res.render('item', {
-      user: req.user,
-      csrfToken: req.csrfToken(),
-      item: item
-    });
+    
+    function showItem(openOrders, closedOrders) {
+      res.render('item', {
+        user: req.user,
+        csrfToken: req.csrfToken(),
+        item: item,
+        openOrders: openOrders,
+        closedOrders: closedOrders
+      });
+    }
+    
+    if (req.user) {
+      // determine if this user has previous orders
+      Order.find({ 'customer.id': req.user._id, 'item.id': req.params.item_id }).sort('-time').exec((err, prevOrders) => {
+        if (err) {
+          throw err;
+        }
+        var openOrders = [];
+        var closedOrders = [];
+        for (var i = 0; i < prevOrders.length; i++) {
+          if (prevOrders[i].completed) {
+            // previously purchased this item from this farmer before
+            closedOrders.push(prevOrders[i]);
+          } else {
+            openOrders.push(prevOrders[i]);
+          }
+          if (openOrders.length && closedOrders.length) {
+            // really don't need more than one-most-recent open/closed order
+            break;
+          }
+        }
+        
+        showItem(openOrders, closedOrders);
+      });
+    } else {
+      showItem();
+    }
   });
 });
 
@@ -202,32 +250,38 @@ app.post('/item/:item_id/buy', middleware, (req, res) => {
 
     var unitCost = (item.cost * 1).toFixed(2) * 1;
     var total = (unitCost * q).toFixed(2);
+    
+    var buyer = req.user || {
+      name: 'TEST',
+      _id: 'TEST'
+    };
 
-    item.sold += q;
-    item.save((err) => {
+    var o = new Order({
+      customer: {
+        name: buyer.name,
+        id: buyer._id
+      },
+      item: {
+        name: item.thing,
+        id: item._id,
+        img: item.img
+      },
+      quantity: q,
+      farmer: item.farmer.name,
+      time: new Date(),
+      total: total,
+      completed: false,
+      test: (!req.user || req.user.test || item.test)
+    });
+    o.save((err) => {
       if (err) {
         throw err;
       }
-      var buyer = req.user || {
-        name: 'TEST',
-        _id: 'TEST'
-      };
-      var o = new Order({
-        customer: {
-          name: buyer.name,
-          id: buyer._id
-        },
-        item: {
-          name: item.thing,
-          id: item._id
-        },
-        quantity: q,
-        farmer: item.farmer.name,
-        time: new Date(),
-        total: total,
-        test: (!req.user || req.user.test || item.test)
-      });
-      o.save((err) => {
+      item.sold += q;
+      item.save((err) => {
+        if (err) {
+          throw err;
+        }
         res.redirect('/store?sold=' + o._id);
       });
     });
@@ -244,7 +298,7 @@ app.get('/orders', middleware, (req, res) => {
 });
 
 app.listen(process.env.PORT || 8080, () => {
-  console.log('app is running');
+  console.log('app is running on PORT ' + (process.env.PORT || 8080));
 });
 
 module.exports = app;

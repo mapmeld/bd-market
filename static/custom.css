@@ -16,6 +16,12 @@ h3 small {
   background: #fff;
 }
 
+.cart .quantity {
+  position: absolute;
+  left: 141px;
+  top: 50px;
+}
+
 [lang='bd'] .farmer-name {
   float: left;
   margin-right: 7px;

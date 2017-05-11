@@ -23,6 +23,22 @@ html
               a.btn.btn-default.btn-lg.translate(href="/login") Log In
             hr
 
+      if openOrders && openOrders.length
+        .row
+          .col-sm-12
+            .alert.alert-info(role='alert')
+              h3.centered
+                span You have #{openOrders[0].quantity} in your cart
+                span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                a.btn.btn-primary.translate(href='/cart') View Cart
+      else if closedOrders && closedOrders.length
+        .row
+          .col-sm-12
+            h3
+              span You have purchased this item before.
+              a.btn.btn-success Did you like it?
+              a.btn.btn-primary Order Again
+
       .row
         .col-sm-3
           .well.centered
@@ -35,22 +51,24 @@ html
           span &nbsp;
           a.farmer-name(href="/farmers/#{item.farmer.uid}")= item.farmer.name
         hr
-        .col-sm-12
-          if (item.quantity - item.sold > 0)
-            input#unit(type="hidden", value=item.cost)
-            input#remainder(type="hidden", value=(item.quantity - item.sold))
+        
+        if !openOrders || !openOrders.length
+          .col-sm-12
+            if (item.quantity - item.sold > 0)
+              input#unit(type="hidden", value=item.cost)
+              input#remainder(type="hidden", value=(item.quantity - item.sold))
             
-            form.form.well(action="/item/#{item._id}/buy", method="POST")
-              input(type="hidden", name="_csrf", value=csrfToken)
-              .form-group
-                label.translate Quantity
-                input#quantity.form-control.input-lg(type="number", name="quantity", value="1")
-              .form-group
-                label.translate Total
-                input#total.form-control(disabled, value="৳#{item.cost}")
-              .form-group
-                input.btn.btn-primary.translate(type="submit", value="Buy Now")
-          else
-            a.btn.btn-primary.translate(disabled) SOLD OUT
+              form.form.well(action="/item/#{item._id}/buy", method="POST")
+                input(type="hidden", name="_csrf", value=csrfToken)
+                .form-group
+                  label.translate Quantity
+                  input#quantity.form-control.input-lg(type="number", name="quantity", value="1")
+                .form-group
+                  label.translate Total
+                  input#total.form-control(disabled, value="৳#{item.cost}")
+                .form-group
+                  input.btn.btn-primary.translate(type="submit", value="Buy Now")
+            else
+              a.btn.btn-primary.translate(disabled) SOLD OUT
     script(src="/translations.js")
     script(src="/checkout.js")
