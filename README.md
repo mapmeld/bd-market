@@ -1,5 +1,7 @@
 # node-bd-market
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mapmeld/bd-market.svg)](https://greenkeeper.io/)
+
 Open source NodeJS server for Bangladesh market experiment
 
 Please contact for more information (GitHub issues)
